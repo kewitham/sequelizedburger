@@ -1,40 +1,64 @@
 var express = require('express');
 var router = express.Router();
-var burger = require('../models/burgers.js');
+var models = require('../models');
 
-router.get('/', function (req, res) {
-	res.redirect('/burgers');
+router.get('/', function(req, res) {
+  res.redirect('/burgers');
 });
 
-router.get('/burgers', function (req, res) {
-	burger.all(function (data) {
-		var hbsObject = { burgers: data };
-		console.log(hbsObject);
-		res.render('index', hbsObject);
+// models.burger.findAll({
+// 	include: [models.User]
+// })
+// 	.then (function (burgers) {
+// 	res.render('burgers/index', {
+// 		user_id: req.session.user_id,
+// 		email: req.session.user_email,
+// 		logged_in: req.session.logged_in,
+// 		burgers: burgers
+// 	});
+//  	});
+//  });
+
+router.post('/create', function (req, res) {
+	models.burger.create({
+		name: req.body.burger_name,
+		devoured: req.body.devoured,
+		user_id: req.session.user_id
+	});
+	.then(function(){
+		res.redirect('/');
 	});
 });
 
-router.post('/burgers/create', function (req, res) {
-	burger.create(['burger_name'], [req.body.burger_name], function () {
-		res.redirect('/burgers');
+router.put('/update/:id', function (req, res) {
+	//var condition = 'id = ' + req.params.id;
+
+	//console.log('condition', condition);
+
+	models.burger.update(
+		{
+			devoured: req.body.devoured
+		}, 
+		{
+			where:{id:req.params.id}
+		})
+		.then(function (result) {
+		res.redirect('/');
+	}, function(rejectedPromiseError){
+
 	});
 });
 
-router.put('/burgers/update/:id', function (req, res) {
-	var condition = 'id = ' + req.params.id;
+router.delete('/delete/:id', function (req, res) {
+	//var condition = 'id = ' + req.params.id;
 
-	console.log('condition', condition);
-
-	burger.update({ devoured: req.body.devoured }, condition, function () {
-		res.redirect('/burgers');
-	});
-});
-
-router.delete('/burgers/delete/:id', function (req, res) {
-	var condition = 'id = ' + req.params.id;
-
-	burger.delete(condition, function () {
-		res.redirect('/burgers');
+	models.burger.destroy({
+		where: {
+			id: req.params.id
+		}
+	})
+	.then(function () {
+		res.redirect('/');
 	});
 });
 
