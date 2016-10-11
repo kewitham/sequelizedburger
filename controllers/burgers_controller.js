@@ -23,8 +23,8 @@ router.post('/create', function (req, res) {
 	models.burger.create({
 		name: req.body.burger_name,
 		devoured: req.body.devoured,
-		user_id: req.session.user_id
-	});
+		id: req.body.id
+	})
 	.then(function(){
 		res.redirect('/');
 	});
