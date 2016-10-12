@@ -15,13 +15,13 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
-      createdAt: {
+      date: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      //},
+     // updatedAt: {
+       // allowNull: false,
+        //type: Sequelize.DATE
       }
     });
   },

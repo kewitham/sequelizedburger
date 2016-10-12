@@ -6,17 +6,17 @@ router.get('/', function(req, res) {
   res.redirect('/burgers');
 });
 
-// models.burger.findAll({
+ models.burger.findAll({
 // 	include: [models.User]
-// })
-// 	.then (function (burgers) {
-// 	res.render('burgers/index', {
+ })
+ 	.then (function (burgers) {
+ 	res.render('burgers/index', {
 // 		user_id: req.session.user_id,
 // 		email: req.session.user_email,
 // 		logged_in: req.session.logged_in,
-// 		burgers: burgers
-// 	});
-//  	});
+ 		burgers: burgers
+ 	});
+  	});
 //  });
 
 router.post('/create', function (req, res) {
@@ -24,6 +24,7 @@ router.post('/create', function (req, res) {
 		name: req.body.burger_name,
 		devoured: req.body.devoured,
 		id: req.body.id
+		date: req.body.date
 	})
 	.then(function(){
 		res.redirect('/');
